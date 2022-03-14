@@ -1,0 +1,11 @@
+<div>
+    <h1>Show</h1>
+    <p>{{organizer.name}}</p>
+    <p>{{organizer.description}}</p>
+    <img src="http://127.0.0.1:3005/{{organizer.image}}" width="auto" height="300" alt="">
+    {{#each organizer.accounts}}
+    {{#if this}}
+    <a href="{{this}}" target="_blank">{{@key}}</a>
+    {{/if}}
+    {{/each}}
+</div>

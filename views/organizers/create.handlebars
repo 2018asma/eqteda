@@ -1,0 +1,31 @@
+ 
+ {{#each errors as |error|}}
+ <div style="background-color: brown;">
+    {{#isName error}}
+      <p>{{error.message}}</p>
+    {{/isName}}
+    {{#isDes error}}
+      <p>{{error.message}}</p>
+    {{/isDes}}
+  {{/each}}
+  {{#if fileError}}
+  <div>{{fileError}}</div>
+  {{/if}}
+  </div>
+  <div>
+<form action="/organizers/create" method="post" enctype="multipart/form-data">
+  {{#if values}}
+  <input type="text" name="name" value='{{values.name}}'/>
+  <input type="text" name="description" value='{{values.description}}' />
+  {{else}}
+  <input type="text" name="name"/>
+  <input type="text" name="description"/>
+  {{/if}}
+  <input type="file" name="image"/>
+  <input type="text" name="telegram">
+  <input type="text" name="youtube">
+  <input type="text" name="twitter">
+  <input type="text" name="instagram">
+  <button type="submit">submit</button>
+</form>
+  </div>
