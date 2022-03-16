@@ -1,0 +1,25 @@
+
+{{#if errors}}
+<p>there are errors</p>
+<p>{{organizer.id}}</p>
+{{/if}}
+
+<form
+  id="update-organizer"
+  action="/organizers/edit/{{organizer.id}}"
+  method="post"
+  enctype="multipart/form-data"
+>
+  <input type="text" name="name" value="{{organizer.name}}" />
+  {{#if nameError}}
+  <p>{{nameError}}</p>
+  {{/if}}
+  <input type="text" name="description" value="{{organizer.description}}" />
+  {{#if description}}
+  <p>{{descriptionError}}</p>
+  {{/if}}
+  <input type="file" name="image" />
+  <img src="http://127.0.0.1:3005/{{organizer.image}}" height="80" alt="" style="border-radius: 50px;">
+  {{#if fileErorr}} <span style="color: red;">{{fileErorr}}</span> {{/if}}
+  <button type="submit">Update</button>
+</form>

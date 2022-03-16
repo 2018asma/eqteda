@@ -3,7 +3,11 @@ const OrganizerAccount = require('../models/OrganizerAccount')
 const { upload } = require("../middleware/multer");
 
 
+const { validationResult } = require('express-validator')
+
+
 const Joi = require("joi");
+const { array } = require("joi");
 
 // GET Oragizers
 exports.getOrganizers = (req, res) => {
@@ -106,6 +110,46 @@ exports.storeOrganizer = (req, res) => {
   });
 };
 
+
+// Show Edit Form
+exports.editOrganizer = async(req, res)=>{
+  const organizer = await Organizer.findOne({
+    where: {
+      id: req.params.id
+    },
+    raw:true
+  })
+  res.render('organizers/edit', {organizer})
+}
+
+
+// Update Organizer
+exports.updateOrganizer = (req, res)=>{
+  res.send('In controller YAY!')
+  // console.log(req.file)
+
+ 
+  // upload(req, res, (err)=>{
+  //   const organizer = req.body;
+  //   if(req.file){
+  //     organizer.image = req.file.path
+  //   }
+  //   Organizer.update(organizer,{
+  //     where: {
+  //       id: req.params.id
+  //     }
+  //   }).then(()=>{
+  //     res.redirect('/organizers')
+  //   })
+  // })
+
+
+}
+
+
+
+
+
 // Destroy Organizer
 exports.destroyOrganizer = async (req, res) => {
   await Organizer.destroy({
@@ -115,4 +159,3 @@ exports.destroyOrganizer = async (req, res) => {
   })
   res.redirect('/organizers');
 };
-

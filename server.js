@@ -19,31 +19,23 @@ const db = require('./db')
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
 
+
+// Multer
+
 // Serve Public
 app.use(express.static(path.join(__dirname, 'public')))
 
 // view engin
 app.engine('handlebars', hbs.engine({
     defaultLayout: 'main',
-    helpers: require('./public/js/helpers') //how to serve it from public folder ?
+    // helpers: require('./public/js/helpers') //how to serve it from public folder ?
 }))
 
 app.set('view engine', 'handlebars')
 
 
+// 
 
-// associations
-// Oragizer.hasOne(OrgAccount,{
-//     foreignKey: {
-//         name: 'orgAcc'
-//       }
-// })
-
-// OrgAccount.belongsTo(Oragizer,{
-//     foreignKey: {
-//         name: 'organizerId'
-//       }
-// })
 
 // Serve
 app.use('/uploads/organizers',express.static('./uploads/organizers'))

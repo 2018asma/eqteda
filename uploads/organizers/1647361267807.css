@@ -1,0 +1,74 @@
+/* ++++++ Sections ++++++ */
+
+@media only screen and (min-width: 991px) {
+  section:not(.py-5 .u-white.py-4):not(.u-white.py-4)
+    > .container:not(.product-details)
+    > .row:not(.slick-slider):not(.products-grid) {
+    display: grid;
+    grid-template-columns: auto auto !important ;
+  }
+  section:nth-of-type(4):not(.py-5 .u-white.py-4):not(.u-white.py-4)
+    > .container:not(.product-details)
+    > .row:not(.slick-slider):not(.products-grid) {
+    display: grid;
+    grid-template-columns: auto auto auto !important ;
+  }
+}
+
+section:not(.py-5):not(.u-white.py-4)
+  > .container:not(.product-details)
+  > .row:not(.slick-slider):not(.products-grid) {
+  display: grid;
+  grid-template-columns: auto auto;
+}
+section:nth-of-type(4):not(.py-5):not(.u-white.py-4)
+  > .container:not(.product-details)
+  > .row:not(.slick-slider):not(.products-grid) {
+  display: grid;
+  grid-template-columns: auto auto auto;
+}
+
+section:not(.py-5):not(.u-white.py-4)
+  > .container:not(.product-details)
+  > .row:not(.slick-slider):not(.products-grid)
+  > .col-sm-4.col-md-4 {
+  width: 100%;
+  padding-right: 4px;
+  padding-left: 4px;
+}
+
+section:not(.py-5)
+  > .container:not(.product-details)
+  > .row:not(.slick-slider):not(.products-grid)
+  > .col-sm-4.col-md-4:nth-child(1) {
+  grid-column: 1;
+}
+
+section:not(.py-5) {
+  padding: 0 !important;
+}
+
+.category-featured a:before {
+  display: none !important;
+}
+
+/* Sections  */
+.category-featured a:before {
+  display: none !important;
+}
+.section:nth-of-type(4) .col-sm-4 .category-featured {
+  padding-top: 100%;
+}
+.section:nth-of-type(4) .col-sm-4 .category-featured a img {
+  display: none;
+}
+
+.section:nth-of-type(4) .col-sm-4:nth-of-type(1) .category-featured a {
+  background-image: url(https://cdn.salla.sa/yzmPx/UHYecphvv4jQxiHa0BpydBGCWhnxTZjbL3fFpkt1.png) !important;
+}
+.section:nth-of-type(4) .col-sm-4:nth-of-type(2) .category-featured a {
+  background-image: url(https://cdn.salla.sa/yzmPx/tyJNsOCphZcTTh4vLIlZCa1BGsmGRFk13f5MUrkD.png) !important;
+}
+.section:nth-of-type(4) .col-sm-4:nth-of-type(3) .category-featured a {
+  background-image: url(https://cdn.salla.sa/yzmPx/KPbfogVUqtPqOjPreQeOEYdQEAu6RcO283MWPrfx.png) !important;
+}
