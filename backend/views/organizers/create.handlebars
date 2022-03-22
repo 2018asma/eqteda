@@ -1,0 +1,25 @@
+ 
+{{#if errors}}
+ {{#each errors}}
+ <p>{{this.file}}</p>
+ <p>{{this.name}}</p>
+ <p>{{this.description}}</p>
+ <p>{{this.telegram}}</p>
+ {{/each}}
+
+{{/if}}
+<form action="/organizers/create" method="post" enctype="multipart/form-data">
+
+  <input type="text" name="name" value='{{data.name}}'/>
+
+  <input type="text" name="description" value='{{data.description}}' />
+
+  <input type="file" name="image"/>
+
+  <input type="text" name="telegram">
+  <input type="text" name="youtube">
+  <input type="text" name="twitter">
+  <input type="text" name="instagram">
+  <button type="submit">submit</button>
+</form>
+  </div>

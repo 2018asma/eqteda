@@ -1,0 +1,64 @@
+<div>
+  {{!-- Image Form --}}
+  <form action="/organizers/{{organizer.id}}/update-image" method="post" enctype="multipart/form-data">
+    <label for="image">
+      <img
+        src="http://127.0.0.1:3005/{{organizer.image}}"
+        height="80"
+        alt=""
+        style="border-radius: 50px;"
+      />
+    </label>
+    <input type="file" name="image" id="image" hidden/>
+    <button type="submit" id="update-btn" disabled>Updat image</button>
+  </form>
+  {{!-- Other Input Form --}}
+  <form
+    id="update-organizer"
+    action="/organizers/edit/{{organizer.id}}"
+    method="post"
+    enctype="multipart/form-data"
+  >
+    <input type="text" name="name" value="{{organizer.name}}" />
+    {{#if errors}}
+      {{#each errors}}
+        <p style="color: tomato;">{{this.name}}</p>
+      {{/each}}
+    {{/if}}
+    <input type="text" name="description" value="{{organizer.description}}" />
+    {{#if errors}}
+      {{#each errors}}
+        <p style="color: tomato;">{{this.description}}</p>
+      {{/each}}
+    {{/if}}
+    <input type="text" name="telegram" value="{{telegramValue}}">
+    {{#if errors}}
+      {{#each errors}}
+        <p style="color: tomato;">{{this.telegram}}</p>
+      {{/each}}
+    {{/if}}
+
+    <input type="text" name="youtube" value="{{youtubeValue}}">
+    {{#if errors}}
+      {{#each errors}}
+        <p style="color: tomato;">{{this.youtube}}</p>
+      {{/each}}
+    {{/if}}
+
+    <input type="text" name="instagram" value="{{instagramValue}}">
+    {{#if errors}}
+      {{#each errors}}
+        <p style="color: tomato;">{{this.instagram}}</p>
+      {{/each}}
+    {{/if}}
+
+    <input type="text" name="twitter" value="{{twitterValue}}">
+    {{#if errors}}
+      {{#each errors}}
+        <p style="color: tomato;">{{this.twitter}}</p>
+      {{/each}}
+    {{/if}}
+
+    <button type="submit">Update</button>
+  </form>
+</div>
