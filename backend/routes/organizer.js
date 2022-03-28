@@ -14,6 +14,13 @@ const {
 
 const { Organizer } = require("../models");
 
+
+// Program Middleware
+const programController = require("../controllers/programController");
+const { programValidateSchema } = require("../middleware/express-validator");
+
+
+
 // Get Organizers
 router.get("/", organizerController.getOrganizers);
 
@@ -59,5 +66,14 @@ router.post("/:id/update-image", uploads, (req, res, next) => {
     res.send("No file Uploaded");
   }
 });
+
+// Create Program
+router.post(
+  "/:id/programs/create",
+  uploads,
+  programValidateSchema(),
+  validations,
+  programController.createProgram
+);
 
 module.exports = router;

@@ -12,14 +12,6 @@ const programController = require("../controllers/programController");
 // Get All Programs
 router.get("/", programController.getPrograms);
 
-// Create Program
-router.post(
-  "/create",
-  uploads,
-  programValidateSchema(),
-  validations,
-  programController.createProgram
-);
 
 // Get Program
 router.get("/:id", programController.getProgram);

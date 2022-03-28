@@ -22,6 +22,7 @@ const Organizer = ({}) => {
       <p>{organizer.name}</p>
       <p>{organizer.description}</p>
         <img src={`http://localhost:3005/${organizer.image}`} height="150" />
+        <a href="">انشاء</a>
     </div>
   );
 };
