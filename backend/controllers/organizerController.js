@@ -2,12 +2,6 @@ const { Organizer, Program, OrganizerAccount } = require("../models");
 
 // GET Oragizers
 exports.getOrganizers = (req, res) => {
-  console.log("------Organizers---------");
-  console.log(req.isAuthenticated());
-  console.log(req.session.id);
-  console.log(req.sessionID);
-  console.log(req.session);
-
   Organizer.findAll({
     order: [["id", "DESC"]],
     attributes: ["id", "name", "description", "image"],

@@ -19,6 +19,10 @@ User.init({
     password: {
         type: DataTypes.STRING,
         allowNull: false
+    },
+    is_admin:{
+        type:DataTypes.BOOLEAN,
+        defaultValue: 0,
     }
 },{
     sequelize,

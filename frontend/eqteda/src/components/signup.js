@@ -16,10 +16,10 @@ const Signup = ()=>{
         data.append('password', password)
     
         axios
-          .post("http://localhost:3005/signup", data)
+          .post("http://localhost:3008/signup", data)
           .then((user) => {
             console.log(user)
-            navigate("/organizers")
+            navigate("/signin")
           })
           .catch(err=>{
             console.log('Error', err)

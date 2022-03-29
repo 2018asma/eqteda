@@ -18,11 +18,13 @@ const { Organizer } = require("../models");
 // Program Middleware
 const programController = require("../controllers/programController");
 const { programValidateSchema } = require("../middleware/express-validator");
+const isAuth  = require("../middleware/authMiddleware").isAuth;
+const isAdmin  = require("../middleware/authMiddleware").isAdmin;
 
 
 
 // Get Organizers
-router.get("/", organizerController.getOrganizers);
+router.get("/", isAdmin, organizerController.getOrganizers);
 
 // Store Oragizer
 router.post(

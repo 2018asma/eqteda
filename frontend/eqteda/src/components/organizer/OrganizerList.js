@@ -14,7 +14,7 @@ const Organizers = () => {
   useEffect(() => {
     const fetchData = async () => {
       const { data: organizers } = await axios.get(
-        "http://127.0.0.1:3005/organizers"
+        "http://127.0.0.1:3008/organizers"
       );
       await setOrganizers(organizers);
       console.log(organizers)

@@ -2,60 +2,32 @@ const express = require("express");
 const app = express();
 const path = require("path");
 const db = require("./db");
-const cors = require('cors');
-const cookieParser = require('cookie-parser')
-
-
-
-// body-parser
-const bodyParser = require("body-parser");
-
-
-// Main library passport and express-session
-const passport = require('passport')
+const passport = require("passport");
 const session = require('express-session')
+const sequelizeStore = require('connect-session-sequelize')(session.Store)
 
-const initializePassport = require('./middleware/initializePassport');
-app.use(cors({
-  origin: 'http://127.0.0.1:3000',
-  credentials: true
-}))
-
-app.use(cookieParser())
-
-// Initial Middleware
+// const cors = require('cors');
+const mystore = new sequelizeStore({
+  db: db
+})
 app.use(session({
   secret: 'secret',
   resave: false,
   saveUninitialized: true,
+  store: mystore,
   cookie:{
-    maxAge: 1000 * 60 * 60 *24,
-    secure: false,  // if true only transmit cookie over https
-    httpOnly: false,
-  },
+    maxAge: 1000 * 60 * 60 * 24
+  }
 }))
-
-
+mystore.sync()
+// body-parser
+const bodyParser = require("body-parser");
 
 
 // Body-parser
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-
-
-// init passport on every route call
-app.use(passport.initialize())
-
-// allow passport to use "express-session"
-app.use(passport.session())
-
-initializePassport(passport)
-
-
-
-// User Model
-const User = require('./models/User')
 
 // Serve Public
 app.use(express.static(path.join(__dirname, "public")));
@@ -65,14 +37,28 @@ app.use("/uploads/organizers", express.static("./uploads/organizers"));
 
 // Organizer Router
 const organizerRoutes = require("./routes/organizer");
-const { use } = require("./routes/organizer");
 
 // Port
-const port = process.env.PORT || 3005;
+const port = process.env.PORT || 3008;
 
 // Connect to database
 const sync = async () => await db.sync({ alter: true, force: false });
 sync();
+
+// Passport
+
+require('./config/passport')
+app.use(passport.initialize())
+app.use(passport.session())
+
+app.use((req, res, next)=>{
+
+  console.log(req.session)
+  // console.log(req.user)
+  next()
+})
+
+
 
 app.use('/',require("./routes/auth"))
 

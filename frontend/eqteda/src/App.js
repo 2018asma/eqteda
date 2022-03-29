@@ -13,17 +13,6 @@ import Notfound from "./components/notfound";
 
 
 function App() {
-
-  // const [organizers, setOrganizers] = useState([]);
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const { data: organizers } = await axios.get("http://127.0.0.1:3005/organizers");
-  //     await setOrganizers(organizers);
-  //   };
-  //   fetchData();
-  // }, []);
-
   return (
     <Router>
       <div className="App">
