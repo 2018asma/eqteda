@@ -2,31 +2,33 @@ const express = require("express");
 const app = express();
 const path = require("path");
 const db = require("./db");
+require('dotenv').config()
+
 const passport = require("passport");
 const session = require('express-session')
 const sequelizeStore = require('connect-session-sequelize')(session.Store)
 
-// const cors = require('cors');
-const mystore = new sequelizeStore({
-  db: db
-})
-app.use(session({
-  secret: 'secret',
-  resave: false,
-  saveUninitialized: true,
-  store: mystore,
-  cookie:{
-    maxAge: 1000 * 60 * 60 * 24
-  }
+const cors = require('cors');
+// CORS
+app.use(cors({
+  origin: 'http://localhost:3000',
+  credentials: true,
 }))
-mystore.sync()
+
 // body-parser
 const bodyParser = require("body-parser");
-
+const cookieParser = require('cookie-parser')
 
 // Body-parser
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
+// Cookie-parser
+app.use(cookieParser())
+
+
+
+
 
 
 // Serve Public
@@ -36,37 +38,32 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/uploads/organizers", express.static("./uploads/organizers"));
 
 // Organizer Router
-const organizerRoutes = require("./routes/organizer");
+const adminOrganizerRoutes = require("./routes/admin/organizer");
+const organizerRoutes = require("./routes/frontend/organizer");
+const { nextTick } = require("process");
 
 // Port
 const port = process.env.PORT || 3008;
 
 // Connect to database
-const sync = async () => await db.sync({ alter: true, force: false });
+const sync = async () => await db.sync({ alter: false, force: false });
 sync();
 
 // Passport
 
-require('./config/passport')
+require('./config/jwt-strategy')
 app.use(passport.initialize())
-app.use(passport.session())
-
-app.use((req, res, next)=>{
-
-  console.log(req.session)
-  // console.log(req.user)
-  next()
-})
 
 
-
-app.use('/',require("./routes/auth"))
+app.use('/',require("./routes/admin/auth"))
 
 // Organizer Route:
+app.use("/admin/organizers", adminOrganizerRoutes);
 app.use("/organizers", organizerRoutes);
 
 // Program Route:
-app.use("/programs", require("./routes/program"));
+app.use("/admin/programs", require("./routes/admin/program"));
+app.use("/programs", require("./routes/frontend/program"));
 
 
 app.listen(port, () => {

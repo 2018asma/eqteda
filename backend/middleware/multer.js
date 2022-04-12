@@ -3,7 +3,7 @@ const mimeTypes = require("mime-types");
 const multer = require("multer");
 
 // Organizer Multer Storage
-const multerStorage = multer.diskStorage({
+const organizerStorage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "./uploads/organizers");
   },
@@ -48,7 +48,18 @@ exports.isFileNotExist = (req, file) => {
 
 
 // Uploads
-exports.uploads = multer({
+exports.uploadOrganizer = multer({
+  storage: organizerStorage,
+  fileFilter: function (req, file, cb) {
+    const ext = mimeTypes.extension(file.mimetype);
+    if (ext !== "png" && ext !== "jpg" && ext !== "jpeg") {
+      return cb(null, false);
+    }
+    cb(null, true);
+  },
+}).single("image")
+
+exports.uploadProgram = multer({
   storage: programStorage,
   fileFilter: function (req, file, cb) {
     const ext = mimeTypes.extension(file.mimetype);

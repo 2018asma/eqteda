@@ -14,7 +14,8 @@ User.init({
         validate:{
             isEmail: true
         },
-        notEmpty: true
+        notEmpty: true,
+        unique:true,
     },
     password: {
         type: DataTypes.STRING,
@@ -23,6 +24,9 @@ User.init({
     is_admin:{
         type:DataTypes.BOOLEAN,
         defaultValue: 0,
+    },
+    token: {
+        type:DataTypes.STRING,
     }
 },{
     sequelize,

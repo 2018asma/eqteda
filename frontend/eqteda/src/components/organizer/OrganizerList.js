@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import {
   BrowserRouter as Router,
@@ -10,14 +11,20 @@ import {
 
 const Organizers = () => {
   const [organizers, setOrganizers] = useState([]);
+  const navigate = useNavigate()
 
   useEffect(() => {
     const fetchData = async () => {
-      const { data: organizers } = await axios.get(
-        "http://127.0.0.1:3008/organizers"
-      );
-      await setOrganizers(organizers);
-      console.log(organizers)
+      const token = localStorage.getItem('token')
+      try{
+        const { data: organizers } = await axios.get(
+          "http://127.0.0.1:3008/organizers",
+        );
+        await setOrganizers(organizers);
+      }catch(err){
+        console.log(err)
+          // navigate('/signin')
+      }
     };
     fetchData();
   }, []);
@@ -33,7 +40,7 @@ const Organizers = () => {
               <div>
                 <Link to={`/organizers/${organizer.id}`}>
                   <img
-                    src={`http://localhost:3005/${organizer.image}`}
+                    src={`http://localhost:3008/${organizer.image}`}
                     className="h-24 w-24 rounded-full"
                   />
                 </Link>
@@ -45,10 +52,10 @@ const Organizers = () => {
               </div>
           
               <div className="grid grid-cols-4 gap-2 text-white">
-                {organizer.accounts.telegram ?<a href={organizer.accounts.telegram} className="bg-sky-500 px-2 py-1 rounded-full" target="_blank">تلجرام</a> :'' }
-                  {organizer.accounts.youtube ?<a href={organizer.accounts.youtube} className="bg-sky-500 px-2 py-1 rounded-full" target="_blank">يوتيوب</a> :'' }
-                 { organizer.accounts.twitter ?<a href={organizer.accounts.twitter} className="bg-sky-500 px-2 py-1 rounded-full" target="_blank">توتير</a> :'' }
-                 { organizer.accounts.instagram ?<a href={organizer.accounts.instagram} className="bg-sky-500 px-2 py-1 rounded-full" target="_blank">انستاقرام</a> :'' }
+                {/* {organizer.accounts.telegram ?<a href={organizer.accounts.telegram} className="bg-sky-500 px-2 py-1 rounded-full" target="_blank">تلجرام</a> :'' } */}
+                  {/* {organizer.accounts.youtube ?<a href={organizer.accounts.youtube} className="bg-sky-500 px-2 py-1 rounded-full" target="_blank">يوتيوب</a> :'' } */}
+                 {/* { organizer.accounts.twitter ?<a href={organizer.accounts.twitter} className="bg-sky-500 px-2 py-1 rounded-full" target="_blank">توتير</a> :'' } */}
+                 {/* { organizer.accounts.instagram ?<a href={organizer.accounts.instagram} className="bg-sky-500 px-2 py-1 rounded-full" target="_blank">انستاقرام</a> :'' } */}
               </div>
 
             </div>
