@@ -2,8 +2,10 @@ import React, {useState, useEffect} from "react";
 import axios from "axios";
 import Cookies from 'js-cookie';
 import { useNavigate } from "react-router-dom";
+import { AppBar, Avatar, Box, Toolbar, Search, SearchIcon, SearchIconWrapper, Styled, StyledInputBase, TextField } from "@mui/material";
 
 const Navbar = () => {
+  const drawerWidth = 240
   const navigate = useNavigate()
   const signOut = async (event)=>{
     event.preventDefault()
@@ -21,34 +23,56 @@ const Navbar = () => {
     }
   }
   return (
-    <div>
-      <nav className="shadow">
-        <div className="mx-4">
-          <div className="grid grid-cols-5 py-4">
-            <div>
-              <img src="/img/logo-1.png" alt="" className="w-32" />
-            </div>
-            <div className="flex items-center justify-center col-start-5">
-              <a
-                className="font-medium text-sm text-slate-50 bg-emerald-500 ml-4 py-1 px-3 rounded-full cursor-pointer"
-                onClick={signOut}
-              >
-                تسجيل خروج
-              </a>
-              <div className="flex items-center">
-                <img
-                  src="/img/ahmed.png"
-                  alt=""
-                  className="h-12 rounded-full"
-                />
-                <p className="text-xs font-bold mr-2"> أحمد السيد</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </nav>
-    </div>
+    <Box>
+      <AppBar  position="fixed"
+        sx={{ width: `calc(100% - ${drawerWidth}px)`, mr: `${drawerWidth}px` }}>
+        <Toolbar >
+          <Avatar src="/img/ahmed.png"/>
+          <Box>
+            <TextField/>
+
+          </Box>
+         
+        </Toolbar>
+      </AppBar>
+    </Box>
   );
 };
 
 export default Navbar;
+
+
+// import * as React from 'react';
+// import Box from '@mui/material/Box';
+// import Drawer from '@mui/material/Drawer';
+// import CssBaseline from '@mui/material/CssBaseline';
+// import AppBar from '@mui/material/AppBar';
+// import Toolbar from '@mui/material/Toolbar';
+// import List from '@mui/material/List';
+// import Typography from '@mui/material/Typography';
+// import Divider from '@mui/material/Divider';
+// import ListItem from '@mui/material/ListItem';
+// import ListItemIcon from '@mui/material/ListItemIcon';
+// import ListItemText from '@mui/material/ListItemText';
+// import InboxIcon from '@mui/icons-material/MoveToInbox';
+// import MailIcon from '@mui/icons-material/Mail';
+
+// const drawerWidth = 240;
+
+// export default function Navbar() {
+//   return (
+//     <Box sx={{ display: 'flex' }}>
+//       {/* <CssBaseline /> */}
+//       <AppBar
+//         position="fixed"
+//         sx={{ width: `calc(100% - ${drawerWidth}px)`, mr: `${drawerWidth}px` }}
+//       >
+//         <Toolbar>
+//           <Typography variant="h6" noWrap component="div">
+//             Permanent drawer
+//           </Typography>
+//         </Toolbar>
+//       </AppBar>
+//     </Box>
+//   );
+// }

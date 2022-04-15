@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 // import './styles/output.css'
 import Dashboard from "./components/admin/dashboard";
+import Navbar from "./components/admin/navbar";
 import Organizers from "./components/organizer/OrganizerList";
 import Organizer from "./components/organizer/OrganizerDetails";
 import CreateOrganizer from "./components/admin/organizer/CreateOrganizer";
@@ -11,14 +12,20 @@ import Signup from "./components/signup";
 import Signin from "./components/admin/signin";
 import Notfound from "./components/notfound";
 
+import MaterialUi from "./components/admin/MaterialUi";
+
 
 
 function App() {
   return (
     <Router>
       <div className="App">
+        <MaterialUi/>
+        {/* <Navbar/>
+        <Dashboard/> */}
         <Routes>
-          <Route path="/admin/dashboard" element={<Dashboard/>}>Dashboard</Route>
+          <Route path="/" >Material</Route>
+          <Route path="/admin/dashboard" >Dashboard</Route>
           <Route path="/organizers" element={<Organizers/>}/>
           <Route path="/admin/organizers/create" element={<CreateOrganizer/>}/>
           <Route path="/organizers/edit/:id" element={<UpdateOrganizer/>}/>
