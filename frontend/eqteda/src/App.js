@@ -1,41 +1,37 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-
-// import './styles/output.css'
-import Dashboard from "./components/admin/dashboard";
+import { Box, Container, Stack, Switch } from "@mui/material";
+import SideNav from "./components/admin/sideNav";
+import Organizer from "./components/admin/organizer/Organizer";
 import Navbar from "./components/admin/navbar";
-import Organizers from "./components/organizer/OrganizerList";
-import Organizer from "./components/organizer/OrganizerDetails";
-import CreateOrganizer from "./components/admin/organizer/CreateOrganizer";
-import UpdateOrganizer from "./components/admin/organizer/UpdateOrganizer";
-import CreateProgram from "./components/program/CreateProgram";
-import Signup from "./components/signup";
-import Signin from "./components/admin/signin";
-import Notfound from "./components/notfound";
-
-import MaterialUi from "./components/admin/MaterialUi";
-
-
-
+import { useState } from "react";
+import EditOrganizer from "./components/admin/organizer/EditOrganizer";
+// import CreateOrganizer from "./components/admin/organizer/CreateOrganizer";
+import OrganizersLis from "./components/admin/organizer/OrganizersList";
+import OrganizersList from "./components/admin/organizer/OrganizersList";
+import Signin from "./components/admin/Signin";
+import DeleteOrganizer from "./components/admin/organizer/DeleteOrganizer";
 function App() {
+  const [open, setOpen] = useState(false);
+  const toggleSidebar = (status) => {
+    setOpen(status);
+  };
   return (
     <Router>
-      <div className="App">
-        <MaterialUi/>
-        {/* <Navbar/>
-        <Dashboard/> */}
-        <Routes>
-          <Route path="/" >Material</Route>
-          <Route path="/admin/dashboard" >Dashboard</Route>
-          <Route path="/organizers" element={<Organizers/>}/>
-          <Route path="/admin/organizers/create" element={<CreateOrganizer/>}/>
-          <Route path="/organizers/edit/:id" element={<UpdateOrganizer/>}/>
-          <Route path="/organizers/:id" element={<Organizer/>}/>
-          <Route path="/organizers/:id/programs/create" element={<CreateProgram/>}/>
-          <Route path="/signup" element={<Signup/>}/>
-          <Route path="/admin/signin" element={<Signin/>}/>
-          <Route path="*" element={<Notfound/>}/>
-        </Routes>
-      </div>
+      <Box>
+        <Navbar toggleSidebar={toggleSidebar} />
+        <Stack
+          direction="row"
+          spacing={2}
+          justifyContent="space-between"
+          alignItems="center"
+        >
+          <SideNav openSidebar={open} toggleSidebar={toggleSidebar} />
+          <Routes>
+            <Route path="/admin/organizers" element={<OrganizersList />} />
+            <Route path="/admin/signin" element={<Signin />} />
+          </Routes>
+        </Stack>
+      </Box>
     </Router>
   );
 }

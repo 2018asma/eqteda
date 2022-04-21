@@ -74,7 +74,10 @@ exports.destroyOrganizer = async (req, res) => {
     },
   })
     .then((organizer) => {
-      res.status(204).json(organizer);
+      if(organizer){
+       return res.status(204).send('Succussfully deleted!');
+      }
+      res.status(404).json({msg: 'resource not found'})
     })
     .catch((err) => {
       res.status(500).json({

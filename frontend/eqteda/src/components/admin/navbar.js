@@ -1,78 +1,112 @@
-import React, {useState, useEffect} from "react";
-import axios from "axios";
-import Cookies from 'js-cookie';
-import { useNavigate } from "react-router-dom";
-import { AppBar, Avatar, Box, Toolbar, Search, SearchIcon, SearchIconWrapper, Styled, StyledInputBase, TextField } from "@mui/material";
+import {
+  AppBar,
+  Avatar,
+  Box,
+  Button,
+  InputBase,
+  styled,
+  Toolbar,
+  Typography,
+  Menu,
+  MenuItem,
+} from "@mui/material";
+import { Logout, Widgets } from "@mui/icons-material";
+import { useState } from "react";
 
-const Navbar = () => {
-  const drawerWidth = 240
-  const navigate = useNavigate()
-  const signOut = async (event)=>{
-    event.preventDefault()
-    try{
-      if(Cookies.get('access_token')){
-        await axios.get('http://localhost:3008/signout',{withCredentials: true});
-        Cookies.remove('access_token');
-        navigate('/admin/signin')
-      }else{
-        navigate('/admin/signin')
-      }
-      
-    }catch(err){
-      console.log(err)
-    }
-  }
+const StyledToolbar = styled(Toolbar)({
+  display: "flex",
+  justifyContent: "space-between",
+});
+
+const Search = styled("div")(({ theme }) => ({
+  backgroundColor: "white",
+  padding: "0 10px",
+  borderRadius: theme.shape.borderRadius,
+  width: "40%",
+}));
+
+const AdminBox = styled(Box)(({ them }) => ({
+  display: "flex",
+  gap: "8px",
+  alignItems: "center",
+}));
+
+const LogoutButton = styled(Button)(({ theme }) => ({
+  "& > span": {
+    marginLeft: "8px",
+    marginRight: "-2px",
+  },
+}));
+
+const LogoutMenu = styled(Menu)(({ theme }) => ({
+  top: "39px",
+  "& .MuiMenu-list": {
+    padding: "0",
+  },
+}));
+
+const Navbar = ({ toggleSidebar }) => {
+  const [open, setOpen] = useState(false);
   return (
-    <Box>
-      <AppBar  position="fixed"
-        sx={{ width: `calc(100% - ${drawerWidth}px)`, mr: `${drawerWidth}px` }}>
-        <Toolbar >
-          <Avatar src="/img/ahmed.png"/>
-          <Box>
-            <TextField/>
+    <AppBar position="sticky">
+      <StyledToolbar>
+        {/* Large */}
+        <Box sx={{ display: { xs: "none", sm: "block" } }}>
+          <img src="/img/eqteda.png" width="100px" alt="" />
+        </Box>
+        <Widgets
+          sx={{ display: { xs: "block", sm: "none" } }}
+          onClick={() => toggleSidebar(true)}
+        />
+        <Search sx={{ display: { xs: "none", sm: "block" } }}>
+          <InputBase placeholder="search..." />
+        </Search>
+        {/* Small */}
+        <Box sx={{ display: { xs: "block", sm: "none" } }}>
+          <img src="/img/eqteda.png" width="100px" alt="" />
+        </Box>
+        {/* Large Screens */}
+        <AdminBox sx={{ display: { xs: "none", sm: "flex" } }}>
+          <LogoutButton
+            color="error"
+            size="small"
+            variant="contained"
+            startIcon={<Logout fontSize="small" />}
+          >
+            تسجيل خروج
+          </LogoutButton>
+          <Avatar src="/img/ahmed.png" onClick={() => toggleSidebar(false)} />
+          <Typography variant="span">أحمد السيد</Typography>
+        </AdminBox>
 
-          </Box>
-         
-        </Toolbar>
-      </AppBar>
-    </Box>
+        {/* Small screens */}
+        <AdminBox
+          sx={{ display: { xs: "flex", sm: "none" } }}
+          onClick={() => setOpen(true)}
+        >
+          <Avatar src="/img/ahmed.png" />
+          <Typography variant="span">أحمد السيد</Typography>
+        </AdminBox>
+      </StyledToolbar>
+      <LogoutMenu
+        sx={{ display: { xs: "block", sm: "none" } }}
+        id="basic-menu"
+        open={open}
+        onClose={() => setOpen(false)}
+        anchorOrigin={{
+          vertical: "top",
+        }}
+        transformOrigin={{
+          vertical: "top",
+        }}
+      >
+        <MenuItem>
+          <Logout fontSize="small" sx={{ ml: "8px" }} />
+          تسجيل خروج
+        </MenuItem>
+      </LogoutMenu>
+    </AppBar>
   );
 };
 
 export default Navbar;
-
-
-// import * as React from 'react';
-// import Box from '@mui/material/Box';
-// import Drawer from '@mui/material/Drawer';
-// import CssBaseline from '@mui/material/CssBaseline';
-// import AppBar from '@mui/material/AppBar';
-// import Toolbar from '@mui/material/Toolbar';
-// import List from '@mui/material/List';
-// import Typography from '@mui/material/Typography';
-// import Divider from '@mui/material/Divider';
-// import ListItem from '@mui/material/ListItem';
-// import ListItemIcon from '@mui/material/ListItemIcon';
-// import ListItemText from '@mui/material/ListItemText';
-// import InboxIcon from '@mui/icons-material/MoveToInbox';
-// import MailIcon from '@mui/icons-material/Mail';
-
-// const drawerWidth = 240;
-
-// export default function Navbar() {
-//   return (
-//     <Box sx={{ display: 'flex' }}>
-//       {/* <CssBaseline /> */}
-//       <AppBar
-//         position="fixed"
-//         sx={{ width: `calc(100% - ${drawerWidth}px)`, mr: `${drawerWidth}px` }}
-//       >
-//         <Toolbar>
-//           <Typography variant="h6" noWrap component="div">
-//             Permanent drawer
-//           </Typography>
-//         </Toolbar>
-//       </AppBar>
-//     </Box>
-//   );
-// }

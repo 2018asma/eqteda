@@ -1,86 +1,222 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import EditOrganizer from "./EditOrganizer";
+import {
+  Box,
+  Button,
+  Avatar,
+  styled,
+  Card,
+  CardContent,
+  CardActions,
+  Grid,
+  Input,
+  FormLabel,
+} from "@mui/material";
+import { Add, Delete, Save } from "@mui/icons-material";
+import Model from "../Model";
+import SuccessMesage from "./SuccessMesage";
+import { handleSubmit } from "./createOrganizer";
 
 const OrganizersList = () => {
-  const [organizers, setOrganizers] = useState([]);
-  const [organizerId, setOrganizerId] = useState("");
-  const [editModel, setEditModel] = useState("hidden");
+  const [image, setImage] = useState("");
+  const [add, setAdd] = useState(false);
+  const [modal, setModal] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
-  //Get Organizers
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [file, setFile] = useState("");
+
+  const [organizers, setOrganizers] = useState([]);
+
   useEffect(() => {
     const getOrganizers = async () => {
-      const { data } = await axios.get("http://localhost:3008/organizers/");
-      setOrganizers(data);
+      try {
+        const response = await axios.get("http://localhost:3008/organizers/");
+        setOrganizers(response.data);
+      } catch (err) {
+        console.log(err);
+      }
     };
     getOrganizers();
   }, []);
 
-  // Delete Organizer
-  const deleteOrganizer = async (id) => {
-    try {
-      const response = await axios.delete(
-        `http://localhost:3008/admin/organizers/destroy/${id}`,
-        { withCredentials: true }
-      );
-    } catch (err) {
-      console.log(err);
+  const addOrganizer = (e) => {
+    setAdd(true);
+  };
+
+  const CustomButton = styled(Button)(({ theme }) => ({
+    margin: 5,
+    "& > span": {
+      marginLeft: "8px",
+      marginRight: "-2px",
+    },
+  }));
+
+  const handleInputs = (e) => {
+    // e.preventDefault();
+
+    // console.log(e.target.name)
+
+    if (e.target.name === "name") {
+      // console.log(e.target.value)
+      setName(e.target.value);
+    }
+
+    if (e.target.name === "description") {
+      // console.log(e.target.value)
+      setDescription(e.target.value);
+    }
+
+    if (e.target.name === "image") {
+      setImage(URL.createObjectURL(e.target.files[0]));
+      setFile(e.target.files[0]);
+      // console.log(e.target.value)
     }
   };
 
-  const hideElemnt = (e)=>{
-    e.preventDefault()
-    setEditModel('hidden')
-  }
-
-
-  return (
-    <div>
-      <div className="grid grid-cols-12">
-        {editModel == 'block'? <EditOrganizer hideElemnt={hideElemnt}/> : ''}
-        {organizers.map((organizer) => {
-          return (
-            <div
-              key={organizer.id}
-              className="grid grid-cols-12 items-center justify-center col-start-2 col-end-12 border-b border-gray-200 pb-2 mb-5"
-            >
-              <div className="">
-                <img
-                  src={`http://localhost:3008/${organizer.image}`}
-                  alt=""
-                  className="rounded-full h-12"
+  const organizerCard = (
+    id,
+    img,
+    name,
+    des,
+    onRemove,
+    onSave,
+    remove,
+    onsubmit
+  ) => {
+    return (
+      <Grid item xs={12} md={4} key={id}>
+        <Card>
+          <form onSubmit={onsubmit}>
+            <CardContent>
+              <FormLabel htmlFor="image">
+                <Avatar
+                  src={img || image}
+                  sx={{ width: 64, height: 64, margin: "auto" }}
                 />
-              </div>
-              <div className="col-span-2">
-                <p className="text-xs ml-6 font-bold">{organizer.name}</p>
-              </div>
-              <div className="col-start-4 col-end-11 flex">
-                <p className="text-xs">{organizer.description}</p>
-              </div>
-              <div>
-                <a
-                  href=""
-                  className="bg-emerald-200  hover:bg-emerald-400 hover:text-white  text-black py-1 px-6 rounded-full text-xs m-1"
-                  onClick={(e) => {
-                    e.preventDefault()
-                    setEditModel("block");
-                  }}
-                >
-                  تعديل
-                </a>
-                <a
-                  href=""
-                  className="bg-red-200 hover:bg-red-400 hover:text-white text-black py-1 px-6 rounded-full text-xs m-1"
-                  onClick={(e) => deleteOrganizer(organizer.id)}
+              </FormLabel>
+
+              <Input
+                name="image"
+                // type="file"
+                sx={{ display: "none" }}
+                id="image"
+                value={file}
+                onChange={onSave}
+              />
+              <FormLabel sx={{ fontSize: 14 }}>الاسم</FormLabel>
+              <Input
+                name="name"
+                fullWidth
+                defaultValue={name}
+                sx={{ mb: 2, mt: 1, fontSize: 14 }}
+                onChange={onSave}
+              />
+              <FormLabel sx={{ fontSize: 14 }} color="error">
+                الوصف
+              </FormLabel>
+              <Input
+                name="description"
+                onChange={onSave}
+                fullWidth
+                defaultValue={des}
+                multiline
+                maxRows={3}
+                sx={{ mt: 1, mb: 1, fontSize: 14 }}
+              />
+            </CardContent>
+            <CardActions sx={{ justifyContent: "center" }}>
+              {/* <CreateOrganizer  /> */}
+              <CustomButton
+                type="submit"
+                // onClick={onSave}
+                size="small"
+                variant="contained"
+                startIcon={<Save />}
+              >
+                حفظ
+              </CustomButton>
+              {remove && (
+                // <DeleteOrganizer showModal={onRemove} />
+                <CustomButton
+                  onClick={onRemove}
+                  color="error"
+                  size="small"
+                  variant="contained"
+                  startIcon={<Delete />}
                 >
                   حذف
-                </a>
-              </div>
-            </div>
-          );
-        })}
-      </div>
-    </div>
+                </CustomButton>
+              )}
+            </CardActions>
+          </form>
+        </Card>
+      </Grid>
+    );
+  };
+  // Component
+  return (
+    <Box
+      flex={4}
+      px={3}
+      py={5}
+      sx={{ backgroundColor: "#eee" }}
+      ml="0 !important"
+    >
+      <Box>
+        <CustomButton
+          onClick={addOrganizer}
+          variant="contained"
+          startIcon={
+            <Add sx={{ backgroundColor: "black", borderRadius: "50px" }} />
+          }
+        >
+          إضافة منظم
+        </CustomButton>
+        <Grid container spacing={2} my={1}>
+          {add &&
+            organizerCard(
+              null,
+              null,
+              null,
+              () => setAdd(false),
+              null,
+              handleInputs,
+              null,
+              (e) => {
+                e.preventDefault();
+                handleInputs();
+                handleSubmit({
+                  name,
+                  description,
+                  file,
+                });
+              }
+            )}
+          {organizers.map((item) => {
+            const options = [
+              item.id,
+              `http://localhost:3008/${item.image}`,
+              item.name,
+              item.description,
+              () => setModal(true),
+              () => {
+                alert("Saved");
+              },
+              true,
+            ];
+            return organizerCard(...options);
+          })}
+        </Grid>
+      </Box>
+      <Model
+        openModal={modal}
+        closeModal={() => setModal(false)}
+        isOpen={(value) => setIsOpen(value)}
+      />
+      <SuccessMesage open={isOpen} />
+    </Box>
   );
 };
 

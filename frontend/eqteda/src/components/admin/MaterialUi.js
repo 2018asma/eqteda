@@ -8,34 +8,17 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
+  Button,
 } from "@mui/material";
 import { Inbox as InboxIcon, Mail as MailIcon, AccountTreeOutlined, HomeOutlined,GroupOutlined, NoteAltOutlined } from "@mui/icons-material";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { green } from "@mui/material/colors";
+import { navBarItems } from "./const/navBarItems";
 
 const MaterialUi = () => {
   const navigate = useNavigate()
   const drawerWidth = 240;
-  const itemsList = [
-    {
-      text: "زيارة الموقع",
-      icon: <AccountTreeOutlined />,
-      path: "/",
-    },
-    {
-      text: "الرئيسية",
-      icon: <HomeOutlined />,
-      path: "/admin/dashboard",
-    },
-    {
-      text: "المنظمون",
-      icon: <GroupOutlined />,
-      path: "/admin/organizers/create",
-    },
-    {
-      text: "البرامج",
-      icon: <NoteAltOutlined  />,
-      path: "/signup",
-    },
-  ];
+ 
   return (
     <Drawer
       sx={{
@@ -44,8 +27,8 @@ const MaterialUi = () => {
         "& .MuiDrawer-paper": {
           width: drawerWidth,
           boxSizing: "border-box",
-          backgroundColor: '#064e3b',
-          color: '#f8fafc'
+          backgroundColor: '#0D8F75',
+          color: '#000'
         },
       }}
       variant="permanent"
@@ -54,14 +37,14 @@ const MaterialUi = () => {
       <Toolbar />
       <Divider />
       <List>
-        {itemsList.map((item, index) => {
+        {navBarItems.map((item, index) => {
           const { text, icon, path } = item
           return (
             <ListItem button key={text} onClick={(e)=>navigate(path)}>
-              <ListItemIcon sx={{color: '#f8fafc'}}>
+              <ListItemIcon sx={{color: '#000'}}>
                 {icon}
               </ListItemIcon>
-              <ListItemText primary={text} style={{textAlign: 'right'}}/>
+              <ListItemText primary={text} style={{textAlign: 'right'}} primaryTypographyProps={{fontSize: '16px'}}  />
             </ListItem>
           );
         })}
